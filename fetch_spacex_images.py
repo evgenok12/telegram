@@ -10,6 +10,7 @@ def main():
     args = parser.parse_args()
 
     try:
+        print('Работаем')
         response = requests.get(f'https://api.spacexdata.com/v5/launches/{args.launch_id}')
         response.raise_for_status()
         urls = response.json()['links']['flickr']['original']
