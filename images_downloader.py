@@ -10,7 +10,9 @@ def extract_extension(url):
     return extension
 
 
-def download_image(url, path, filename, params={}):
+def download_image(url, path, filename, params=None):
+    if params is None:
+        params = {}
     Path(path).mkdir(parents=True, exist_ok=True)
     response = requests.get(url, params=params)
     response.raise_for_status()
