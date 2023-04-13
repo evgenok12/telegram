@@ -6,6 +6,11 @@ import random
 import argparse
 
 
+def send_photo(photo_path, telegram_bot, telegram_chat_id):
+    with open(photo_path, 'rb') as photo:
+        telegram_bot.sendPhoto(chat_id=telegram_chat_id, photo=photo)
+
+
 def main():
     env = Env()
     env.read_env()
@@ -29,15 +34,13 @@ def main():
             images_paths = [os.path.join(path, name) for path, _, names in os.walk(args.path) for name in names]
             while True:
                 for image_path in images_paths:
-                    with open(image_path, 'rb') as photo:
-                        bot.sendPhoto(chat_id=telegram_chat_id, photo=photo)
+                    send_photo(image_path, bot, telegram_chat_id)
                     print(f'Фотография опубликована. Cледующая будет опубликована через {telegram_wait_seconds} секунд')
                     time.sleep(telegram_wait_seconds)   
                 random.shuffle(images_paths)
         elif args.mode == 'image' and os.path.isfile(args.path):
-            with open(args.path, 'rb') as photo:
-                bot.sendPhoto(chat_id=telegram_chat_id, photo=photo)
-                print('Фотография опубликована')
+            send_photo(args.path, bot, telegram_chat_id)
+            print('Фотография опубликована')
         else:
             print('Некорректный ввод')
     except telegram.error.TelegramError:
