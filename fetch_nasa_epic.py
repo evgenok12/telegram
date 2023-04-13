@@ -10,7 +10,7 @@ def main():
     env.read_env()
 
     parser = argparse.ArgumentParser(description='скачивает фотографии NASA EPIC')
-    parser.add_argument('date', help='дата (день.месяц.год)')
+    parser.add_argument('-d', '--date', help='дата (день.месяц.год)', default='13.06.2015')
     parser.add_argument('-p', '--path', help='куда сохранить фотографии', default='images')
     args = parser.parse_args()
 

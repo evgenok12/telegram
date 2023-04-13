@@ -61,7 +61,7 @@ $ python fetch_nasa_apod.py [-a AMOUNT] [-p PATH]
 Запуск на Linux(Python 3) или Windows:
 
 ```bash
-$ python fetch_nasa_epic.py [-p PATH] date
+$ fetch_nasa_epic.py [-d DATE] [-p PATH]
 ```
 Вы увидите:
 
@@ -87,7 +87,7 @@ $ python fetch_spacex_images.py [-id LAUNCH_ID] [-p PATH]
 Запуск на Linux(Python 3) или Windows:
 
 ```bash
-$ python telegram_poster.py {image,images} path 
+$ telegram_poster.py [-m {image,images}] [-p PATH] 
 ```
 Вы увидите:
 

@@ -11,8 +11,11 @@ def main():
     env.read_env()
 
     parser = argparse.ArgumentParser(description='публикует фотографии в телеграм канал')
-    parser.add_argument('mode', choices=['image', 'images'], help='image - опубликовать 1 фотографию, images - опубликовать несколько фотографий')
-    parser.add_argument('path', help='откуда брать фотографии')
+    parser.add_argument(
+        '-m', '--mode', choices=['image', 'images'], default='image',
+        help='image - опубликовать 1 фотографию, images - опубликовать несколько фотографий'        
+        )
+    parser.add_argument('-p', '--path', help='откуда брать фотографии', default='images')
     args = parser.parse_args()
 
     telegram_token = env('TELEGRAM_TOKEN')
