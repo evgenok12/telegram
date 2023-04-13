@@ -17,35 +17,42 @@ def main():
 
     parser = argparse.ArgumentParser(description='публикует фотографии в телеграм канал')
     parser.add_argument(
-        '-m', '--mode', choices=['image', 'images'], default='image',
-        help='image - опубликовать 1 фотографию, images - опубликовать несколько фотографий'        
+        '-s', '--shuffle', action='store_true',
+        help='если фотографии закончатся, они будут перемешаны, и публикация начнется сначала'        
         )
     parser.add_argument('-p', '--path', help='откуда брать фотографии', default='images')
     args = parser.parse_args()
+    if not os.path.isdir(args.path):
+        exit('Неверно указана директория')
 
     telegram_token = env('TELEGRAM_TOKEN')
     telegram_wait_seconds = env.int('TELEGRAM_WAIT_SECONDS', default=14400)
     telegram_chat_id=env('TELEGRAM_CHAT_ID')
 
-    try:
-        print('Работаем')        
-        bot = telegram.Bot(token=telegram_token)
-        if args.mode == 'images' and os.path.isdir(args.path):
-            images_paths = [os.path.join(path, name) for path, _, names in os.walk(args.path) for name in names]
+    print('Работаем')        
+    bot = telegram.Bot(token=telegram_token)
+    images_paths = [os.path.join(path, name) for path, _, names in os.walk(args.path) for name in names]
+
+    while True:
+        for index, image_path in enumerate(images_paths):
             while True:
-                for image_path in images_paths:
+                try:
                     send_photo(image_path, bot, telegram_chat_id)
-                    print(f'Фотография опубликована. Cледующая будет опубликована через {telegram_wait_seconds} секунд')
-                    time.sleep(telegram_wait_seconds)   
-                random.shuffle(images_paths)
-        elif args.mode == 'image' and os.path.isfile(args.path):
-            send_photo(args.path, bot, telegram_chat_id)
-            print('Фотография опубликована')
-        else:
-            print('Некорректный ввод')
-    except telegram.error.TelegramError:
-        print('Ошибка')
-    
+                    print('Фотография опубликована')
+                    if args.shuffle or index != len(images_paths) - 1: 
+                        print(f'Cледующая будет опубликована через {telegram_wait_seconds} секунд')
+                        time.sleep(telegram_wait_seconds)
+                    break
+                except telegram.error.NetworkError:
+                    print('Проблемы с подключением. Переподключение')
+                    time.sleep(10)
+        if not args.shuffle:
+            break
+        random.shuffle(images_paths)
+        print('Фотографии перемешаны')     
+                                       
+    print('Скрипт завершил работу')
+
 
 if __name__ == '__main__':
     main()
