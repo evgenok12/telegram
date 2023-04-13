@@ -1,18 +1,17 @@
 # Космический Телеграм
-Скачивает фотографий NASA APOD, NASA EPIC, запуска spaceX и публикует их в телеграм канале.
+Скачивает фотографий NASA APOD, NASA EPIC, запуска spaceX и публикует их в телеграм канале
 
-## Окружение
-### Зависимости
+## Зависимости
 Python3 должен быть уже установлен. Затем используйте pip (или pip3, есть конфликт с Python2) для установки зависимостей:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### Переменные окружения
-#### `fetch_nasa_apod.py` и `fetch_nasa_epic.py`
+## Переменные окружения
+### `fetch_nasa_apod.py` и `fetch_nasa_epic.py`
 - NASA_TOKEN=DEMO_KEY
-#### `telegram_poster.py`
+### `telegram_poster.py`
 - TELEGRAM_TOKEN
 - TELEGRAM_CHAT_ID
 - TELEGRAM_WAIT_SECONDS=14400
@@ -30,16 +29,16 @@ TELEGRAM_CHAT_ID=@abc123
 TELEGRAM_WAIT_SECONDS=14400
 ```
 
-#### Как получить `NASA_TOKEN`
+### Как получить `NASA_TOKEN`
 Зарегистрируйтесь на [api.nasa.gov](https://api.nasa.gov/#signUp)
 
-#### Как получить `TELEGRAM_TOKEN`
+### Как получить `TELEGRAM_TOKEN`
 Создайте бота у [@BotFather](https://telegram.me/BotFather)
 
-#### Как получить `TELEGRAM_CHAT_ID`
+### Как получить `TELEGRAM_CHAT_ID`
 Это ссылка на телеграм канал, типа @news24
 
-#### Как получить `TELEGRAM_WAIT_SECONDS`
+### Как получить `TELEGRAM_WAIT_SECONDS`
 Это время в секундах между публикациями
 
 ## Как запустить
@@ -87,20 +86,30 @@ $ python fetch_spacex_images.py [-id LAUNCH_ID] [-p PATH]
 Запуск на Linux(Python 3) или Windows:
 
 ```bash
-$ telegram_poster.py [-m {image,images}] [-p PATH] 
+$ telegram_poster.py [-s] [-p PATH] 
 ```
 Вы увидите:
 
 ```
 Работаем
-Фотография опубликована. Cледующая будет опубликована через 14400 секунд
+Фотография опубликована
+Cледующая будет опубликована через 14400 секунд
+...
+Фотографии перемешаны
+Фотография опубликована
+Cледующая будет опубликована через 14400 секунд
+...
 ```
 или
 ```
+Работаем
 Фотография опубликована
+Cледующая будет опубликована через 14400 секунд
+...
+Фотография опубликована
+Скрипт завершил работу
 ```
 
-Используйте `--help`, чтобы посмотреть информацию о скриптах.
+**Используйте `--help`, чтобы посмотреть информацию о скриптах:**
 ```bash
 $ python my_script --help
-
